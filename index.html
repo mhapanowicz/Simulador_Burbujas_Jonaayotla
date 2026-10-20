@@ -1577,7 +1577,7 @@ const CoverageSimulator = (function() {
         var isL = storeShape === 'L';
         var isIsla = storeShape === 'isla';
         
-        document.getElementById('rect-adjust-row').style.display = isRect ? '' : 'none';
+        document.getElementById('rect-adjust-row').style.display = (isRect || isL) ? '' : 'none';
         document.getElementById('ant2-toggle-row').style.display = isL ? '' : 'none';
         document.getElementById('isla-notice').style.display = isIsla ? '' : 'none';
 
@@ -1609,22 +1609,77 @@ const CoverageSimulator = (function() {
     }
 
     function adjustRectBubbles() {
-        if (storeShape !== 'rect') return;
-        var shapeSel = document.getElementById('bubble-shape');
-        if (shapeSel) shapeSel.value = 'rect';
-        
-        var vs1 = document.getElementById('visit-size'), vh1 = document.getElementById('visit-h');
-        var ps1 = document.getElementById('peasant-size'), ph1 = document.getElementById('peasant-h');
+        if (storeShape === 'rect') {
+            var shapeSel = document.getElementById('bubble-shape');
+            if (shapeSel) shapeSel.value = 'rect';
+            
+            var vs1 = document.getElementById('visit-size'), vh1 = document.getElementById('visit-h');
+            var ps1 = document.getElementById('peasant-size'), ph1 = document.getElementById('peasant-h');
 
-        if (vs1) vs1.value = "180"; if (vh1) vh1.value = "120";
-        if (ps1) ps1.value = "230"; if (ph1) ph1.value = "170";
+            if (vs1) vs1.value = "180"; if (vh1) vh1.value = "120";
+            if (ps1) ps1.value = "230"; if (ph1) ph1.value = "170";
 
-        var cx = W / 2, cy = H / 2;
-        antenna1.x = cx; antenna1.y = cy;
-        visitCenter1.x = cx; visitCenter1.y = cy;
-        peasantCenter1.x = cx; peasantCenter1.y = cy;
+            var cx = W / 2, cy = H / 2;
+            antenna1.x = cx; antenna1.y = cy;
+            visitCenter1.x = cx; visitCenter1.y = cy;
+            peasantCenter1.x = cx; peasantCenter1.y = cy;
 
-        updateBubbleSizes();
+            updateBubbleSizes();
+        } else if (storeShape === 'L' && !ant2Enabled) {
+            // Forma L con una sola antena: rectangulos que cubren toda la L
+            var shapeSel = document.getElementById('bubble-shape');
+            if (shapeSel) shapeSel.value = 'rect';
+            bubbleShape1 = 'rect';
+
+            // Bounding box de la L: x: cx-210 a cx+140, y: cy-140 a cy+140
+            // Centro del bounding box: (cx-35, cy)
+            var cx = W / 2, cy = H / 2;
+            var bboxCx = cx - 35;
+            var bboxCy = cy;
+            
+            // Rectangulo de visitas (azul): cubre el bounding box interior de la L
+            // Ancho mitad = (140+210)/2 = 175, Alto mitad = (140+140)/2 = 140
+            var visitW = 175;
+            var visitH = 140;
+            
+            // Rectangulo de paseantes (rojo): mas grande que envuelve todo
+            var peasantW = 210;
+            var peasantH = 160;
+
+            var vs1 = document.getElementById('visit-size'), vh1 = document.getElementById('visit-h');
+            var ps1 = document.getElementById('peasant-size'), ph1 = document.getElementById('peasant-h');
+            var vhRow = document.getElementById('visit-h-row');
+            var phRow = document.getElementById('peasant-h-row');
+
+            if (vs1) vs1.value = String(visitW);
+            if (vh1) { vh1.value = String(visitH); visitHeight1 = visitH; }
+            if (ps1) ps1.value = String(peasantW);
+            if (ph1) { ph1.value = String(peasantH); peasantHeight1 = peasantH; }
+            if (vhRow) vhRow.style.display = '';
+            if (phRow) phRow.style.display = '';
+
+            visitRadius1 = visitW;
+            visitHeight1 = visitH;
+            peasantRadius1 = peasantW;
+            peasantHeight1 = peasantH;
+
+            // Posicionar antena y centros en el centro del bounding box
+            antenna1.x = bboxCx; antenna1.y = bboxCy;
+            visitCenter1.x = bboxCx; visitCenter1.y = bboxCy;
+            peasantCenter1.x = bboxCx; peasantCenter1.y = bboxCy;
+
+            // Actualizar labels de sliders
+            var vsVal = document.getElementById('visit-size-val');
+            var vhVal = document.getElementById('visit-h-val');
+            var psVal = document.getElementById('peasant-size-val');
+            var phVal = document.getElementById('peasant-h-val');
+            if (vsVal) vsVal.textContent = visitW + 'px';
+            if (vhVal) vhVal.textContent = visitH + 'px';
+            if (psVal) psVal.textContent = peasantW + 'px';
+            if (phVal) phVal.textContent = peasantH + 'px';
+
+            drawSim();
+        }
     }
 
     function onAnt2Toggle() {
