@@ -1503,7 +1503,6 @@ const CoverageSimulator = (function() {
 
     function isInVisit(x, y) {
         if (storeShape === 'trap' || storeShape === 'diamond') return isInStore(x, y);
-        if (storeShape === 'L' && lAdjusted) return isInStore(x, y);
         var mult1 = (storeShape === 'isla') ? 3 : 1;
         var cx1 = (bubbleShape1 === 'circle') ? antenna1.x : visitCenter1.x;
         var cy1 = (bubbleShape1 === 'circle') ? antenna1.y : visitCenter1.y;
@@ -1521,10 +1520,6 @@ const CoverageSimulator = (function() {
         if (storeShape === 'trap' || storeShape === 'diamond') {
             var expandedPoly = getExpandedPoly(storePoints, peasantRadius1 - 100);
             return pointInPoly(x, y, expandedPoly) && !isInStore(x, y);
-        }
-        if (storeShape === 'L' && lAdjusted) {
-            var expandedPolyL = getExpandedPoly(storePoints, 40);
-            return pointInPoly(x, y, expandedPolyL) && !isInStore(x, y);
         }
         var mult1 = (storeShape === 'isla') ? 3 : 1;
         var cx1 = (bubbleShape1 === 'circle') ? antenna1.x : visitCenter1.x;
@@ -1633,13 +1628,53 @@ const CoverageSimulator = (function() {
 
             updateBubbleSizes();
         } else if (storeShape === 'L' && !ant2Enabled) {
-            // Forma L con una sola antena: burbujas poligonales que siguen la forma de la L
+            // Forma L con una sola antena: rectangulos que cubren toda la L
             lAdjusted = true;
-            var cx = W / 2, cy = H / 2;
-            var bboxCx = cx - 35;
-            var bboxCy = cy;
+            var shapeSel = document.getElementById('bubble-shape');
+            if (shapeSel) shapeSel.value = 'rect';
+            bubbleShape1 = 'rect';
 
-            // Posicionar antena en el centro del bounding box de la L
+            var cx = W / 2, cy = H / 2;
+            // Bounding box de la L: x: cx-210 a cx+140 (ancho 350), y: cy-140 a cy+140 (alto 280)
+            var bboxCx = cx - 35; // centro X del bounding box
+            var bboxCy = cy;       // centro Y del bounding box
+
+            // Visitas (azul): rectangulo que cubre todo el bounding box de la L
+            var visitW = 175; // mitad del ancho (350/2)
+            var visitH = 140; // mitad del alto (280/2)
+
+            // Paseantes (rojo): rectangulo mas grande que envuelve todo
+            var peasantW = 200;
+            var peasantH = 160;
+
+            var vs1 = document.getElementById('visit-size'), vh1 = document.getElementById('visit-h');
+            var ps1 = document.getElementById('peasant-size'), ph1 = document.getElementById('peasant-h');
+            var vhRow = document.getElementById('visit-h-row');
+            var phRow = document.getElementById('peasant-h-row');
+
+            if (vs1) vs1.value = String(visitW);
+            if (vh1) vh1.value = String(visitH);
+            if (ps1) ps1.value = String(peasantW);
+            if (ph1) ph1.value = String(peasantH);
+            if (vhRow) vhRow.style.display = '';
+            if (phRow) phRow.style.display = '';
+
+            visitRadius1 = visitW;
+            visitHeight1 = visitH;
+            peasantRadius1 = peasantW;
+            peasantHeight1 = peasantH;
+
+            // Actualizar labels
+            var vsVal = document.getElementById('visit-size-val');
+            var vhVal = document.getElementById('visit-h-val');
+            var psVal = document.getElementById('peasant-size-val');
+            var phVal = document.getElementById('peasant-h-val');
+            if (vsVal) vsVal.textContent = visitW + 'px';
+            if (vhVal) vhVal.textContent = visitH + 'px';
+            if (psVal) psVal.textContent = peasantW + 'px';
+            if (phVal) phVal.textContent = peasantH + 'px';
+
+            // Posicionar antena y centros en el centro del bounding box
             antenna1.x = bboxCx; antenna1.y = bboxCy;
             visitCenter1.x = bboxCx; visitCenter1.y = bboxCy;
             peasantCenter1.x = bboxCx; peasantCenter1.y = bboxCy;
@@ -1788,8 +1823,8 @@ const CoverageSimulator = (function() {
         if (storeShape === 'L') labelY = H / 2 - 165;
         ctx.fillText(storeShape === 'isla' ? 'TIENDA (ISLA COMERCIAL)' : 'TIENDA', W / 2, labelY);
 
-        if (storeShape === 'trap' || storeShape === 'diamond' || (storeShape === 'L' && lAdjusted)) {
-            var expandedPoly = (storeShape === 'L' && lAdjusted) ? getExpandedPoly(storePoints, 40) : getExpandedPoly(storePoints, peasantRadius1 - 100);
+        if (storeShape === 'trap' || storeShape === 'diamond') {
+            var expandedPoly = getExpandedPoly(storePoints, peasantRadius1 - 100);
             drawPolyBubble(expandedPoly, false);
             drawPolyBubble(storePoints, true);
         } else {
@@ -1817,7 +1852,7 @@ const CoverageSimulator = (function() {
             }
         }
 
-        if (storeShape !== 'trap' && storeShape !== 'diamond' && !(storeShape === 'L' && lAdjusted)) {
+        if (storeShape !== 'trap' && storeShape !== 'diamond') {
             if (bubbleShape1 !== 'circle') {
                 drawCenter(visitCenter1.x, visitCenter1.y, 'rgba(9,132,227,0.4)', 'centro v1');
                 drawCenter(peasantCenter1.x, peasantCenter1.y, 'rgba(214,48,49,0.4)', 'centro p1');
