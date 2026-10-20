@@ -1639,9 +1639,9 @@ const CoverageSimulator = (function() {
             var bboxCx = cx - 35; // centro X del bounding box
             var bboxCy = cy;       // centro Y del bounding box
 
-            // Visitas (azul): rectangulo que cubre todo el bounding box de la L
-            var visitW = 175; // mitad del ancho (350/2)
-            var visitH = 140; // mitad del alto (280/2)
+            // Visitas (azul): rectangulo que cubre la mayor parte de la L pero deja un margen
+            var visitW = 155; // menor que 175 (mitad del bbox) para dejar espacio
+            var visitH = 120; // menor que 140 (mitad del bbox) para dejar espacio
 
             // Paseantes (rojo): rectangulo mas grande que envuelve todo
             var peasantW = 230;
