@@ -1,0 +1,1913 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GetIn · Material de Apoyo y Simuladores</title>
+    <style>
+        :root {
+            --getin-green: #2CAD78;
+            --getin-green-dark: #1E8A5C;
+            --getin-green-light: #E8F5EE;
+            --bg: #ffffff;
+            --nav-bg: #F8F8F8;
+            --text: #333333;
+            --text-muted: #777777;
+            --border: #EEEEEE;
+            --footer-bg: #000000;
+            --warning-red: #E74C3C;
+            --warning-orange: #F39C12;
+            --accent-blue: #2980B9;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        /* Navigation Bar & Tabs */
+        .tabs {
+            background: var(--nav-bg);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            overflow-x: auto;
+        }
+
+        .tabs-logo {
+            height: 30px;
+            width: auto;
+            margin-right: 24px;
+            flex-shrink: 0;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            padding: 16px 20px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: color 0.2s, border-color 0.2s;
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover { color: var(--text); }
+
+        .tab-btn.active {
+            color: var(--getin-green);
+            border-bottom-color: var(--getin-green);
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            padding: 80px 24px 70px;
+            text-align: center;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+                        url('https://getin.mx/wp-content/themes/getin-theme/public/images/slider/IMAGEN_REPORTE_SEMESTRAL_2026.jpg') center center / cover no-repeat;
+            z-index: 0;
+        }
+
+        .hero-content { position: relative; z-index: 2; max-width: 600px; margin: 0 auto; }
+        .hero h1 { color: #fff; font-size: 2.2rem; font-weight: 600; margin-bottom: 14px; }
+        .hero p { color: rgba(255,255,255,0.9); font-size: 1.1rem; margin: 0 auto; }
+        .hero-badge {
+            display: inline-block; background: var(--getin-green); color: #fff;
+            font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 1px; padding: 5px 16px; border-radius: 4px; margin-bottom: 20px;
+        }
+
+        .container { max-width: 760px; margin: 0 auto; padding: 48px 24px 60px; }
+
+        .img-section { position: relative; overflow: hidden; border-radius: 12px; margin-bottom: 40px; }
+        .img-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-position: center; background-size: cover; z-index: 0; }
+        .img-overlay-dark { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)); z-index: 1; }
+        .img-overlay-light { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.90); z-index: 1; }
+        .img-section-content { position: relative; z-index: 2; padding: 36px 28px; }
+
+        .img-section.dark .img-section-content h2 { color: #fff; border-bottom-color: var(--getin-green); }
+        .img-section.dark .img-section-content p { color: rgba(255,255,255,0.9); }
+        .img-section.dark .img-section-content strong { color: #fff; }
+        .img-section.dark .img-section-content ul li { color: rgba(255,255,255,0.85); }
+        .img-section.dark .highlight { background: rgba(44,173,120,0.15); }
+        .img-section.dark .highlight p { color: #fff; }
+        .img-section.dark .highlight p strong { color: var(--getin-green); }
+
+        .section { margin-bottom: 40px; padding: 0 4px; }
+        .section h2, .img-section-content h2 {
+            color: var(--text); font-size: 1.4rem; font-weight: 600;
+            margin-bottom: 16px; padding-bottom: 10px;
+            border-bottom: 3px solid var(--getin-green); display: inline-block;
+        }
+        .section p, .img-section-content p { color: var(--text-muted); font-size: 1.05rem; margin-bottom: 14px; }
+        .section strong, .img-section-content strong { color: var(--text); font-weight: 600; }
+        .section ul, .img-section-content ul { list-style: none; padding-left: 0; margin-top: 12px; }
+        .section ul li, .img-section-content ul li { padding-left: 28px; position: relative; margin-bottom: 14px; color: var(--text-muted); font-size: 1.05rem; }
+        .section ul li::before, .img-section-content ul li::before { content: "▸"; position: absolute; left: 0; color: var(--getin-green); font-weight: bold; }
+
+        .highlight { background: var(--getin-green-light); border-left: 4px solid var(--getin-green); border-radius: 4px; padding: 18px 22px; margin: 20px 0; }
+        .highlight p { color: var(--text); margin-bottom: 0; font-size: 1.05rem; }
+        .highlight p strong { color: var(--getin-green-dark); }
+        .divider { height: 1px; background: var(--border); margin: 40px 0; }
+
+        /* Guía Nav Index */
+        .guia-nav {
+            position: sticky;
+            top: 57px;
+            z-index: 150;
+            background: #fff;
+            border-bottom: 1px solid var(--border);
+            padding: 12px 24px;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .guia-nav a {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 20px;
+            background: var(--getin-green-light);
+            color: var(--getin-green-dark);
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .guia-nav a:hover {
+            background: var(--getin-green);
+            color: #fff;
+        }
+
+        /* Guía section anchor offset */
+        .guia-anchor { scroll-margin-top: 120px; }
+
+        /* === NUEVO LAYOUT GUÍA === */
+        .guia-container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Sección alternada de 2 columnas */
+        .guia-row {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            margin-bottom: 0;
+            padding: 56px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .guia-row:last-of-type { border-bottom: none; }
+
+        .guia-row .guia-text {
+            flex: 1 1 52%;
+            min-width: 0;
+        }
+        .guia-row .guia-visual {
+            flex: 1 1 44%;
+            min-width: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Alternar orden: filas impares con visual a la derecha, pares a la izquierda */
+        .guia-row.reverse .guia-text { order: 2; }
+        .guia-row.reverse .guia-visual { order: 1; }
+
+        .guia-text h2 {
+            color: var(--text);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 14px;
+            line-height: 1.3;
+        }
+        .guia-text p {
+            color: var(--text-muted);
+            font-size: 1.08rem;
+            margin-bottom: 12px;
+            line-height: 1.8;
+        }
+        .guia-text strong { color: var(--text); font-weight: 600; }
+        .guia-text ul {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 14px;
+        }
+        .guia-text ul li {
+            padding-left: 28px;
+            position: relative;
+            margin-bottom: 12px;
+            color: var(--text-muted);
+            font-size: 1.02rem;
+            line-height: 1.6;
+        }
+        .guia-text ul li::before {
+            content: "✅";
+            position: absolute;
+            left: 0;
+            font-size: 0.9rem;
+        }
+        .guia-text ul li.no-check::before { content: "⚠️"; }
+
+        .guia-highlight {
+            background: var(--getin-green-light);
+            border-left: 4px solid var(--getin-green);
+            border-radius: 4px;
+            padding: 16px 20px;
+            margin: 16px 0 0;
+        }
+        .guia-highlight p {
+            color: var(--text);
+            margin-bottom: 0;
+            font-size: 1.02rem;
+        }
+        .guia-highlight p strong { color: var(--getin-green-dark); }
+
+        /* Visual: imagen circular con borde verde */
+        .guia-img-circle {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background-size: cover;
+            background-position: center;
+            border: 6px solid var(--getin-green);
+            box-shadow: 0 8px 28px rgba(0,0,0,0.10);
+            flex-shrink: 0;
+        }
+        .guia-img-rounded {
+            width: 100%;
+            max-width: 360px;
+            height: 240px;
+            border-radius: 16px;
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            flex-shrink: 0;
+        }
+
+        /* Visual: tarjeta con número grande */
+        .guia-stat-visual {
+            text-align: center;
+            padding: 24px;
+        }
+        .guia-stat-visual .big-num {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--getin-green);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+        .guia-stat-visual .big-num-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Visual: comparación paseantes vs visitas */
+        .guia-compare {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+        }
+        .guia-compare-item {
+            text-align: center;
+        }
+        .guia-compare-item .circle {
+            width: 90px; height: 90px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+        .guia-compare-item .label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        .guia-compare-item .circle.red {
+            background: rgba(214,48,49,0.12);
+            border: 3px solid rgba(214,48,49,0.3);
+        }
+        .guia-compare-item .circle.blue {
+            background: rgba(9,132,227,0.12);
+            border: 3px solid rgba(9,132,227,0.3);
+        }
+        .guia-compare .arrow {
+            font-size: 1.8rem;
+            color: var(--getin-green);
+            font-weight: 700;
+        }
+
+        /* === ANIMACIÓN PERSONA CAMINANDO === */
+        .walker-scene {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            overflow: hidden;
+        }
+        .walker-scene .ground {
+            position: absolute;
+            bottom: 20px;
+            left: 10%;
+            right: 10%;
+            height: 3px;
+            background: var(--getin-green);
+            border-radius: 2px;
+            opacity: 0.5;
+        }
+        .walker-scene .ground::before,
+        .walker-scene .ground::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--getin-green);
+            border-radius: 2px;
+            opacity: 0.3;
+        }
+        .walker-scene .ground::before { left: -120%; }
+        .walker-scene .ground::after { left: 120%; }
+
+        .walker {
+            position: relative;
+            width: 60px;
+            height: 120px;
+            animation: walkerBob 0.6s ease-in-out infinite alternate;
+        }
+        .walker .head {
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            background: var(--getin-green);
+            margin: 0 auto;
+            position: relative;
+        }
+        .walker .head::after {
+            content: "";
+            position: absolute;
+            top: 6px; left: -4px;
+            width: 36px; height: 16px;
+            border-radius: 50%;
+            background: var(--getin-green-dark);
+            opacity: 0.7;
+        }
+        .walker .body {
+            width: 24px; height: 36px;
+            background: var(--getin-green);
+            margin: 4px auto 0;
+            border-radius: 12px 12px 8px 8px;
+        }
+        .walker .arm {
+            position: absolute;
+            width: 8px; height: 30px;
+            background: var(--getin-green);
+            border-radius: 4px;
+            top: 36px;
+        }
+        .walker .arm.left {
+            left: 14px;
+            transform-origin: top center;
+            animation: armSwingA 0.6s ease-in-out infinite alternate;
+        }
+        .walker .arm.right {
+            right: 14px;
+            transform-origin: top center;
+            animation: armSwingB 0.6s ease-in-out infinite alternate;
+        }
+        .walker .leg {
+            position: absolute;
+            width: 10px; height: 34px;
+            background: var(--getin-green-dark);
+            border-radius: 4px;
+            top: 76px;
+        }
+        .walker .leg.left {
+            left: 20px;
+            transform-origin: top center;
+            animation: legSwingA 0.6s ease-in-out infinite alternate;
+        }
+        .walker .leg.right {
+            right: 20px;
+            transform-origin: top center;
+            animation: legSwingB 0.6s ease-in-out infinite alternate;
+        }
+        .walker .leg::after {
+            content: "";
+            position: absolute;
+            bottom: -4px; left: -3px;
+            width: 16px; height: 8px;
+            background: #333;
+            border-radius: 4px 4px 2px 2px;
+        }
+
+        @keyframes walkerBob {
+            from { transform: translateY(0); }
+            to { transform: translateY(-4px); }
+        }
+        @keyframes armSwingA {
+            from { transform: rotate(20deg); }
+            to { transform: rotate(-20deg); }
+        }
+        @keyframes armSwingB {
+            from { transform: rotate(-20deg); }
+            to { transform: rotate(20deg); }
+        }
+        @keyframes legSwingA {
+            from { transform: rotate(15deg); }
+            to { transform: rotate(-15deg); }
+        }
+        @keyframes legSwingB {
+            from { transform: rotate(-15deg); }
+            to { transform: rotate(15deg); }
+        }
+
+        /* Walker con label flotante */
+        .walker-label {
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--getin-green);
+            color: #fff;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 3px 12px;
+            border-radius: 12px;
+            white-space: nowrap;
+        }
+
+        /* Badge emoji decorativo */
+        .guia-emoji-badge {
+            display: inline-block;
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        /* Logo GetIn flotante en guía */
+        .guia-logo-strip {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 24px 24px 8px;
+            background: #fff;
+        }
+        .guia-logo-strip img {
+            height: 40px;
+            width: auto;
+        }
+
+        /* Grid de logos de clientes */
+        .guia-clients {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            padding: 16px 0;
+        }
+        .guia-clients img {
+            height: 48px;
+            width: auto;
+            border-radius: 8px;
+            object-fit: contain;
+            filter: grayscale(0.3);
+            transition: filter 0.2s;
+        }
+        .guia-clients img:hover { filter: grayscale(0); }
+
+        /* Imagen redondeada grande (para hero visual) */
+        .guia-img-large {
+            width: 100%;
+            max-width: 380px;
+            height: 260px;
+            border-radius: 16px;
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+            flex-shrink: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .guia-row { flex-direction: column; gap: 24px; padding: 36px 0; }
+            .guia-row.reverse .guia-text { order: 1; }
+            .guia-row.reverse .guia-visual { order: 2; }
+            .guia-img-circle { width: 200px; height: 200px; }
+            .guia-img-rounded { max-width: 100%; height: 180px; }
+            .guia-img-large { max-width: 100%; height: 200px; }
+            .guia-clients img { height: 36px; }
+        }
+
+        .sim-hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+                        url('https://getin.mx/wp-content/themes/getin-theme/public/images/slider/getin2-min.jpg') center center / cover no-repeat;
+            padding: 60px 24px 50px;
+            text-align: center;
+        }
+
+        .sim-hero h1 { color: #fff; font-size: 2rem; font-weight: 600; margin-bottom: 10px; }
+        .sim-hero p { color: rgba(255,255,255,0.9); font-size: 1.05rem; max-width: 520px; margin: 0 auto; }
+
+        .sim-layout {
+            display: flex;
+            gap: 20px;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        /* Nuevo orden: controles izquierda, mapa centro, conteo derecha */
+        .sim-panel-controls { flex: 0 0 280px; display: flex; flex-direction: column; gap: 16px; }
+        .sim-panel-stats { flex: 0 0 200px; display: flex; flex-direction: column; gap: 16px; }
+        .sim-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+
+        /* Barra superior sobre el mapa: tickets + acciones */
+        .sim-topbar {
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+            flex-wrap: wrap;
+        }
+        .sim-topbar-group {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .sim-topbar .panel-card {
+            margin-bottom: 0;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .sim-topbar .panel-card h3 {
+            margin-bottom: 0;
+            font-size: 0.75rem;
+        }
+        .sim-topbar input[type=number] {
+            width: 80px;
+            padding: 5px 8px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+        }
+        .sim-topbar-btn {
+            background: var(--getin-green);
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 14px;
+            font-family: inherit;
+            font-size: 0.82rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .sim-topbar-btn:hover { background: var(--getin-green-dark); }
+        .sim-topbar-btn.secondary { background: #777; }
+        .sim-topbar-btn.secondary:hover { background: #555; }
+
+        /* Leyenda horizontal debajo del mapa */
+        .sim-legend-bar {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 10px 16px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+        .sim-legend-bar .legend-item { margin-bottom: 0; }
+
+        .panel-card {
+            background: #f9f9f9;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .panel-card h3 {
+            font-size: 0.85rem;
+            color: var(--text);
+            font-weight: 600;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .panel-card label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        .panel-card select {
+            width: 100%;
+            padding: 6px 8px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .panel-card input[type=range] {
+            width: 100%;
+            accent-color: var(--getin-green);
+            cursor: pointer;
+        }
+
+        .slider-value {
+            font-size: 0.75rem;
+            color: var(--text);
+            font-weight: 600;
+            margin-left: 6px;
+        }
+
+        .ant-subhead {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--getin-green-dark);
+            margin: 10px 0 6px 0;
+            padding-bottom: 2px;
+            border-bottom: 1px dashed #ddd;
+            text-transform: uppercase;
+        }
+
+        .panel-card .slider-row { margin-bottom: 12px; }
+        .panel-card .slider-row:last-child { margin-bottom: 0; }
+
+        .sim-btn {
+            background: var(--getin-green);
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 16px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+        .sim-btn:hover { background: var(--getin-green-dark); }
+        .sim-btn.secondary { background: #777; }
+        .sim-btn.secondary:hover { background: #555; }
+
+        .sim-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .stat-card {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 16px;
+            text-align: center;
+        }
+        .stat-card .stat-value { font-size: 1.6rem; font-weight: 700; }
+        .stat-card .stat-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+        .stat-paseantes .stat-value { color: #00b894; }
+        .stat-visitas .stat-value { color: #0984e3; }
+        .stat-conversion .stat-value { color: var(--getin-green); }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+        .legend-swatch {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 1px solid rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+
+        .sim-canvas-wrap {
+            background: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Logo GetIn de fondo opaco en canvas */
+        #sim-canvas {
+            display: block;
+            width: 100%;
+            height: auto;
+            cursor: crosshair;
+            border-radius: 12px;
+            touch-action: none;
+        }
+        .sim-canvas-logo-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60%;
+            max-width: 350px;
+            opacity: 0.06;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .sim-hint {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.78rem;
+            padding: 10px;
+        }
+
+        .section-header {
+            margin-bottom: 24px;
+        }
+
+        .section-header h1 {
+            font-size: 26px;
+            color: var(--text);
+            font-weight: 700;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 15px;
+            margin-top: 4px;
+        }
+
+        .rf-sim-container {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .canvas-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .canvas-toolbar {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .tool-group {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .btn {
+            background: var(--nav-bg);
+            border: 1px solid #ddd;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn:hover { background: #eee; }
+
+        .btn-primary {
+            background: var(--getin-green);
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover { background: var(--getin-green-dark); }
+
+        .btn-danger {
+            background: #fff0f0;
+            color: var(--warning-red);
+            border-color: #fcc;
+        }
+
+        .btn-danger:hover { background: #ffe0e0; }
+
+        #wavesCanvas {
+            background: #F9FAFB;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            max-width: 100%;
+            touch-action: none;
+            cursor: crosshair;
+        }
+
+        .rf-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .rf-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+
+        .rf-card h3 {
+            font-size: 16px;
+            margin-bottom: 12px;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .control-group { margin-bottom: 16px; }
+        .control-group:last-child { margin-bottom: 0; }
+
+        .control-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--text);
+        }
+
+        .control-label span.value { color: var(--getin-green-dark); }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .metric-box {
+            background: var(--nav-bg);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #eee;
+        }
+
+        .metric-box .number {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--getin-green);
+            line-height: 1.2;
+        }
+
+        .metric-box .label {
+            font-size: 10px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 4px;
+        }
+
+        .info-box {
+            background: #EBF5FB;
+            border-left: 4px solid var(--accent-blue);
+            padding: 12px 14px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #1B4F72;
+            margin-top: 12px;
+            line-height: 1.5;
+        }
+
+        .info-box strong { display: block; margin-bottom: 4px; }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .badge-green { background: #E8F5EE; color: var(--getin-green-dark); }
+        .badge-orange { background: #FEF9E7; color: var(--warning-orange); }
+        .badge-red { background: #FDEDEC; color: var(--warning-red); }
+
+        .rf-legend-bar {
+            display: flex;
+            gap: 16px;
+            margin-top: 12px;
+            font-size: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .rf-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .rf-legend-color {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+        }
+
+        .content-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .footer {
+            background: var(--footer-bg);
+            color: #fff;
+            text-align: center;
+            padding: 40px 24px;
+            margin-top: 40px;
+        }
+        .footer-logo { height: 28px; width: auto; margin-bottom: 12px; filter: brightness(0) invert(1); opacity: 0.9; }
+        .footer p { color: rgba(255,255,255,0.7); font-size: 0.85rem; margin-bottom: 6px; }
+
+        @media (max-width: 992px) {
+            .sim-layout { flex-direction: column; }
+            .sim-panel-controls, .sim-panel-stats { flex: 0 0 auto; }
+            .sim-main { flex: 0 0 auto; }
+            .rf-sim-container { grid-template-columns: 1fr; }
+            .sim-topbar { flex-direction: column; align-items: stretch; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="tabs">
+    <img src="https://getin.mx/wp-content/themes/getin-theme/public/images/logo-getin.png" alt="Getin" class="tabs-logo">
+    <button class="tab-btn active" onclick="switchTab('guia', event)">Guía</button>
+    <button class="tab-btn" onclick="switchTab('simulador', event)">Simulador Cobertura</button>
+</nav>
+
+<div class="tab-content active" id="tab-guia">
+    <div class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <div class="hero-badge">Material de apoyo</div>
+            <h1>📡 ¿Cómo funcionan las antenas GetIn?</h1>
+            <p>Todo lo que necesitás saber sobre cómo medimos el tráfico en tu tienda, explicado simple.</p>
+        </div>
+    </div>
+
+    <!-- Logo GetIn visible -->
+    <div class="guia-logo-strip">
+        <img src="https://getin.mx/wp-content/themes/getin-theme/public/images/logo-getin.png" alt="GetIn">
+    </div>
+
+    <!-- Índice de navegación siempre visible -->
+    <nav class="guia-nav">
+        <a href="#guia-que-hace">¿Qué hace GetIn?</a>
+        <a href="#guia-como-detecta">¿Cómo detectamos?</a>
+        <a href="#guia-paseantes">Paseantes</a>
+        <a href="#guia-visitas">Visitas vs. paseantes</a>
+        <a href="#guia-limitaciones">Limitaciones</a>
+        <a href="#guia-filtros">Filtros</a>
+        <a href="#guia-confiar">¿En qué confiar?</a>
+    </nav>
+
+    <div class="guia-container">
+
+        <!-- 1. ¿Qué hace GetIn? -->
+        <div class="guia-row guia-anchor" id="guia-que-hace">
+            <div class="guia-text">
+                <span class="guia-emoji-badge">📊</span>
+                <h2>¿Qué hace GetIn? 👋</h2>
+                <p>GetIn <strong>mide el tráfico real de tu tienda</strong> 📡 usando antenas que detectan los celulares de las personas que pasan y entran.</p>
+                <p>Con eso calculamos métricas clave como <strong>paseantes</strong> 🚶, <strong>visitas</strong> 🏪 y <strong>atracción</strong> 🧲, para que sepas cuánta gente llega y cuánta decide entrar.</p>
+                <p>Simple, sin instalar nada en los teléfonos de tus clientes. La antena hace todo el trabajo solo 🎯</p>
+            </div>
+            <div class="guia-visual">
+                <div class="guia-img-large" style="background-image: url('https://getin.mx/wp-content/themes/getin-theme/public/images/slider/IMAGEN_REPORTE_SEMESTRAL_2026.jpg');"></div>
+            </div>
+        </div>
+
+        <!-- 2. ¿Cómo detectamos? -->
+        <div class="guia-row reverse guia-anchor" id="guia-como-detecta">
+            <div class="guia-visual">
+                <div class="walker-scene">
+                    <div class="ground"></div>
+                    <div class="walker">
+                        <div class="head"></div>
+                        <div class="body"></div>
+                        <div class="arm left"></div>
+                        <div class="arm right"></div>
+                        <div class="leg left"></div>
+                        <div class="leg right"></div>
+                    </div>
+                    <div class="walker-label">🚶 Paseante</div>
+                </div>
+            </div>
+            <div class="guia-text">
+                <span class="guia-emoji-badge">📡</span>
+                <h2>¿Cómo detectamos a las personas? 🤔</h2>
+                <p>Las antenas captan las <strong>señales WiFi</strong> que emiten los celulares 📱. No necesitan conectarse a nada — la antena las detecta automáticamente.</p>
+                <p>Cada teléfono emite señales WiFi todo el tiempo, incluso sin usarlo. Nosotros las "escuchamos" y estimamos cuánta gente hay cerca 👂</p>
+            </div>
+        </div>
+
+        <!-- 3. Paseantes -->
+        <div class="guia-row guia-anchor" id="guia-paseantes">
+            <div class="guia-text">
+                <span class="guia-emoji-badge">🚶</span>
+                <h2>Paseantes — los que pasan por tu zona</h2>
+                <p>Un <strong>paseante</strong> es cualquier persona dentro del rango de la antena 📶. No importa si entra a la tienda o solo pasa de largo: si está en el área, se cuenta.</p>
+                <p>Pensá en el que camina por el pasillo del centro comercial, el que va a otra tienda, o el que se queda parado frente a tu vitrina. Todos son paseantes 🚶‍♀️🚶‍♂️</p>
+            </div>
+            <div class="guia-visual">
+                <div class="guia-img-rounded" style="background-image: url('https://getin.mx/wp-content/themes/getin-theme/public/images/slider/getin1-min.jpg');"></div>
+            </div>
+        </div>
+
+        <!-- 4. Visitas vs. paseantes -->
+        <div class="guia-row reverse guia-anchor" id="guia-visitas">
+            <div class="guia-visual">
+                <div class="guia-compare">
+                    <div class="guia-compare-item">
+                        <div class="circle red">🚶</div>
+                        <div class="label">Paseantes</div>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="guia-compare-item">
+                        <div class="circle blue">🏪</div>
+                        <div class="label">Visitas</div>
+                    </div>
+                </div>
+            </div>
+            <div class="guia-text">
+                <span class="guia-emoji-badge">🏪</span>
+                <h2>Visitas vs. paseantes — la clave de tu vitrina 🧲</h2>
+                <p><strong>Paseantes</strong> = todos los detectados en el área. <strong>Visitas</strong> = los que efectivamente entraron a la tienda ✅</p>
+                <div class="guia-highlight">
+                    <p><strong>💡 La diferencia entre ambos te dice qué tan atractiva es tu vitrina o tu entrada.</strong> Si hay muchos paseantes pero pocas visitas, algo no está invitando a entrar 😬</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. Limitaciones -->
+        <div class="guia-row guia-anchor" id="guia-limitaciones">
+            <div class="guia-text">
+                <span class="guia-emoji-badge">⚠️</span>
+                <h2>El número no es exacto — y está bien así 🤷</h2>
+                <p>El conteo de paseantes es una <strong>referencia de tráfico</strong>, no un contador persona por persona. Puede inflarse por varias razones:</p>
+                <ul>
+                    <li class="no-check">Una persona con celular, smartwatch y audífonos = 3 detecciones 📱⌚🎧</li>
+                    <li class="no-check">Un mismo teléfono emite señales distintas en distintos momentos → puede contarse varias veces</li>
+                    <li class="no-check">Routers, cámaras y sistemas de seguridad también emiten WiFi 📷</li>
+                    <li class="no-check"><strong>Alguien que pasa 3 veces = 3 paseantes.</strong> Es esperable, sobretodo en centros comerciales donde la gente circula mucho 🔄</li>
+                </ul>
+            </div>
+            <div class="guia-visual">
+                <div class="guia-img-rounded" style="background-image: url('https://getin.mx/wp-content/themes/getin-theme/public/images/slider/getin3-min.jpg');"></div>
+            </div>
+        </div>
+
+        <!-- 6. Filtros que sí aplicamos -->
+        <div class="guia-row reverse guia-anchor" id="guia-filtros">
+            <div class="guia-visual">
+                <div class="guia-img-rounded" style="background-image: url('https://getin.mx/wp-content/themes/getin-theme/public/images/slider/getin4-min.jpg');"></div>
+            </div>
+            <div class="guia-text">
+                <span class="guia-emoji-badge">🧹</span>
+                <h2>Filtros que sí aplicamos 🛡️</h2>
+                <p>Trabajamos para que los números sean lo más confiables posible. Estos son los filtros que aplicamos automáticamente:</p>
+                <ul>
+                    <li>Dispositivos fijos (routers, cámaras, equipos de la tienda) se identifican y se excluyen del conteo 🚫</li>
+                    <li>Cuando varias señales vienen del mismo dispositivo, el sistema las agrupa para no contarlas por separado 🔗</li>
+                    <li>Tiempos demasiado cortos o demasiado largos se filtran —alguien que se asoma y se va en segundos no es visita, y alguien que está fijo horas probablemente sea empleado ⏱️</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 7. ¿En qué confiar? -->
+        <div class="guia-row guia-anchor" id="guia-confiar">
+            <div class="guia-text">
+                <span class="guia-emoji-badge">📈</span>
+                <h2>¿Entonces en qué pueden confiar? ✨</h2>
+                <div class="guia-highlight">
+                    <p><strong>💪 La tendencia.</strong> El número absoluto puede tener un margen de error, pero la variación entre días y semanas es confiable. Si un día tenés 1,000 paseantes y al siguiente 1,300, lo importante es que subió un 30% —tu tienda está atrayendo más gente 🎉</p>
+                </div>
+            </div>
+            <div class="guia-visual">
+                <div class="guia-img-large" style="background-image: url('https://getin.mx/wp-content/themes/getin-theme/public/images/slider/getin2-min.jpg');"></div>
+            </div>
+        </div>
+
+        <!-- Logos de clientes GetIn -->
+        <div style="text-align: center; padding: 32px 0 16px; border-top: 1px solid var(--border);">
+            <p style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; font-weight: 600;">🛍️ Tiendas que ya confían en GetIn</p>
+            <div class="guia-clients">
+                <img src="https://getin.mx/wp-content/themes/getin-theme/public/images/custormers/lizz.jpg" alt="Lizz">
+                <img src="https://getin.mx/wp-content/themes/getin-theme/public/images/custormers/mumuso.jpg" alt="Mumuso">
+                <img src="https://getin.mx/wp-content/themes/getin-theme/public/images/custormers/sunglass.jpg" alt="Sunglass">
+                <img src="https://getin.mx/wp-content/themes/getin-theme/public/images/custormers/vazza.jpg" alt="Vazza">
+                <img src="https://getin.mx/wp-content/themes/getin-theme/public/images/custormers/weber.jpg" alt="Weber">
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="footer">
+        <img src="https://getin.mx/wp-content/themes/getin-theme/public/images/logo-getin.png" alt="Getin" class="footer-logo">
+        <p>GetIn · Medición de presencia retail</p>
+        <p>¿Dudas? Tu gerente de cuenta está para ayudarte.</p>
+    </footer>
+</div>
+
+<div class="tab-content" id="tab-simulador">
+    <div class="sim-hero">
+        <h1>🛰️ Simulador de paseantes y visitas</h1>
+        <p>Colocá puntos en el mapa y mirá cómo cambia el conteo según donde estén.</p>
+    </div>
+
+    <div class="sim-layout">
+        <!-- Panel Izquierdo: Controles -->
+        <div class="sim-panel-controls">
+            <div class="panel-card">
+                <h3>Forma de la tienda</h3>
+                <select id="store-shape" onchange="CoverageSimulator.onStoreShapeChange()">
+                    <option value="rect">Rectángulo</option>
+                    <option value="trap">Trapecio</option>
+                    <option value="diamond">Rombo</option>
+                    <option value="L">Forma L</option>
+                    <option value="isla">Isla (Círculo)</option>
+                </select>
+                <div id="rect-adjust-row" style="margin-top:10px;">
+                    <button class="sim-btn" onclick="CoverageSimulator.adjustRectBubbles()" style="margin-bottom:0; background: var(--getin-green-dark);">🎯 Ajustar al tamaño de tienda</button>
+                </div>
+                <div id="ant2-toggle-row" style="display:none; margin-top:10px;">
+                    <label style="display:flex; align-items:center; gap:6px; cursor:pointer; font-size:0.82rem; color:var(--text);">
+                        <input type="checkbox" id="ant2-enabled" onchange="CoverageSimulator.onAnt2Toggle()" style="cursor:pointer;"> Habilitar antena 2
+                    </label>
+                </div>
+                <div id="isla-notice" style="display:none; margin-top:10px; padding:8px; background:#fff3cd; border:1px solid #ffeeba; border-radius:4px; font-size:0.75rem; color:#856404;">
+                    <strong>Capacidad Isla:</strong> Máximo 3 personas dentro del área de tienda.
+                </div>
+            </div>
+
+            <div class="panel-card">
+                <h3>Burbujas</h3>
+                
+                <div id="ant1-controls-group">
+                    <div class="ant-subhead" id="ant1-subhead" style="display:none;">📡 Antena 1</div>
+                    <div class="slider-row">
+                        <label>Forma</label>
+                        <select id="bubble-shape" onchange="CoverageSimulator.updateBubbleSizes()">
+                            <option value="square" selected>Cuadrado</option>
+                            <option value="rect">Rectángulo</option>
+                            <option value="circle">Círculo</option>
+                        </select>
+                    </div>
+                    <div class="slider-row">
+                        <label>🔵 Visitas (ancho) <span class="slider-value" id="visit-size-val">150px</span></label>
+                        <input type="range" id="visit-size" min="60" max="220" value="150" oninput="CoverageSimulator.updateBubbleSizes()">
+                    </div>
+                    <div class="slider-row" id="visit-h-row" style="display:none;">
+                        <label>🔵 Visitas (alto) <span class="slider-value" id="visit-h-val">150px</span></label>
+                        <input type="range" id="visit-h" min="60" max="220" value="150" oninput="CoverageSimulator.updateBubbleSizes()">
+                    </div>
+                    <div class="slider-row">
+                        <label>🔴 Paseantes (ancho) <span class="slider-value" id="peasant-size-val">220px</span></label>
+                        <input type="range" id="peasant-size" min="90" max="280" value="220" oninput="CoverageSimulator.updateBubbleSizes()">
+                    </div>
+                    <div class="slider-row" id="peasant-h-row" style="display:none;">
+                        <label>🔴 Paseantes (alto) <span class="slider-value" id="peasant-h-val">220px</span></label>
+                        <input type="range" id="peasant-h" min="90" max="280" value="220" oninput="CoverageSimulator.updateBubbleSizes()">
+                    </div>
+                </div>
+
+                <div id="ant2-controls-group" style="display:none; margin-top:14px; padding-top:10px; border-top:1px solid #e0e0e0;">
+                    <div class="ant-subhead" style="color: #d35400;">📡 Antena 2</div>
+                    <div class="slider-row">
+                        <label>Forma Antena 2</label>
+                        <select id="bubble-shape-2" onchange="CoverageSimulator.updateBubbleSizes()">
+                            <option value="square" selected>Cuadrado</option>
+                            <option value="rect">Rectángulo</option>
+                            <option value="circle">Círculo</option>
+                        </select>
+                    </div>
+                    <div class="slider-row">
+                        <label>🔵 Visitas A2 (ancho) <span class="slider-value" id="visit-size-val-2">150px</span></label>
+                        <input type="range" id="visit-size-2" min="60" max="220" value="150" oninput="CoverageSimulator.updateBubbleSizes()">
+                    </div>
+                    <div class="slider-row" id="visit-h-row-2" style="display:none;">
+                        <label>🔵 Visitas A2 (alto) <span class="slider-value" id="visit-h-val-2">150px</span></label>
+                        <input type="range" id="visit-h-2" min="60" max="220" value="150" oninput="CoverageSimulator.updateBubbleSizes()">
+                    </div>
+                    <div class="slider-row">
+                        <label>🔴 Paseantes A2 (ancho) <span class="slider-value" id="peasant-size-val-2">220px</span></label>
+                        <input type="range" id="peasant-size-2" min="90" max="280" value="220" oninput="CoverageSimulator.updateBubbleSizes()">
+                    </div>
+                    <div class="slider-row" id="peasant-h-row-2" style="display:none;">
+                        <label>🔴 Paseantes A2 (alto) <span class="slider-value" id="peasant-h-val-2">220px</span></label>
+                        <input type="range" id="peasant-h-2" min="90" max="280" value="220" oninput="CoverageSimulator.updateBubbleSizes()">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Centro: Barra superior + Mapa + Leyenda -->
+        <div class="sim-main">
+            <!-- Barra superior: Tickets + Acciones -->
+            <div class="sim-topbar">
+                <div class="panel-card">
+                    <h3>🎫 Tickets</h3>
+                    <input type="number" id="tickets-input" min="0" value="0" oninput="CoverageSimulator.updateStats()">
+                </div>
+                <div class="sim-topbar-group">
+                    <button class="sim-topbar-btn" onclick="CoverageSimulator.addRandomPerson()">➕ Persona aleatoria</button>
+                    <button class="sim-topbar-btn secondary" onclick="CoverageSimulator.clearPeople()">🧹 Limpiar todo</button>
+                </div>
+            </div>
+
+            <!-- Mapa con logo de fondo -->
+            <div class="sim-canvas-wrap">
+                <img src="https://getin.mx/wp-content/themes/getin-theme/public/images/logo-getin.png" alt="GetIn" class="sim-canvas-logo-bg">
+                <canvas id="sim-canvas" width="640" height="427"></canvas>
+            </div>
+            <div class="sim-hint">Clic: colocar persona · Arrastrar: mover persona, antena o centro de burbujas · Doble clic: borrar persona</div>
+
+            <!-- Leyenda horizontal debajo del mapa -->
+            <div class="sim-legend-bar">
+                <div class="legend-item"><div class="legend-swatch" style="background: rgba(9, 132, 227, 0.15); border-color: rgba(9,132,227,0.4);"></div> Visitas (azul)</div>
+                <div class="legend-item"><div class="legend-swatch" style="background: rgba(214, 48, 49, 0.10); border-color: rgba(214,48,49,0.3);"></div> Paseantes (rojo)</div>
+                <div class="legend-item"><div class="legend-swatch" style="background: #00b894;"></div> Paseante</div>
+                <div class="legend-item"><div class="legend-swatch" style="background: #fff; border-color: #ccc;"></div> Visita</div>
+                <div class="legend-item"><div class="legend-swatch" style="background: #2CAD78;"></div> Antena 1</div>
+                <div class="legend-item" id="legend-ant2" style="display:none;"><div class="legend-swatch" style="background: #e67e22;"></div> Antena 2</div>
+                <div class="legend-item"><div class="legend-swatch" style="background: rgba(9,132,227,0.3); border-color: rgba(9,132,227,0.5);"></div> Centro visitas</div>
+                <div class="legend-item"><div class="legend-swatch" style="background: rgba(214,48,49,0.3); border-color: rgba(214,48,49,0.5);"></div> Centro paseantes</div>
+            </div>
+        </div>
+
+        <!-- Panel Derecho: Conteo -->
+        <div class="sim-panel-stats">
+            <div class="panel-card">
+                <h3>📊 Conteo</h3>
+                <div class="sim-stats">
+                    <div class="stat-card stat-paseantes">
+                        <div class="stat-value" id="stat-paseantes">0</div>
+                        <div class="stat-label">Paseantes</div>
+                    </div>
+                    <div class="stat-card stat-visitas">
+                        <div class="stat-value" id="stat-visitas">0</div>
+                        <div class="stat-label">Visitas</div>
+                    </div>
+                    <div class="stat-card stat-conversion">
+                        <div class="stat-value" id="stat-attraction">0%</div>
+                        <div class="stat-label">Atracción</div>
+                    </div>
+                    <div class="stat-card" style="border-color: #e67e22;">
+                        <div class="stat-value" id="stat-purchase" style="color: #e67e22;">—</div>
+                        <div class="stat-label">Conv. de compra</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <img src="https://getin.mx/wp-content/themes/getin-theme/public/images/logo-getin.png" alt="Getin" class="footer-logo">
+        <p>GetIn · Simulador de cobertura</p>
+        <p>¿Dudas? Tu gerente de cuenta está para ayudarte.</p>
+    </footer>
+</div>
+
+<script>
+// --- GLOBAL TAB SWITCHER ---
+function switchTab(tabId, event) {
+    document.querySelectorAll('.tab-content').forEach(function(el) { el.classList.remove('active'); });
+    document.querySelectorAll('.tab-btn').forEach(function(el) { el.classList.remove('active'); });
+    
+    var targetTab = document.getElementById('tab-' + tabId);
+    if (targetTab) targetTab.classList.add('active');
+    
+    if (event && event.currentTarget) {
+        event.currentTarget.classList.add('active');
+    }
+
+    if (tabId === 'simulador') {
+        CoverageSimulator.drawSim();
+    }
+}
+
+// --- MODULE 1: COVERAGE SIMULATOR (PASEANTES Y VISITAS) ---
+const CoverageSimulator = (function() {
+    var canvas, ctx, W, H;
+    var storeShape = 'rect';
+    var storePoints = [];
+    var islandRadius = 110;
+    var ant2Enabled = false;
+
+    var antenna1 = { x: 0, y: 0, r: 8, color: '#2CAD78' };
+    var antenna2 = { x: 0, y: 0, r: 8, color: '#e67e22' };
+
+    var visitCenter1 = { x: 0, y: 0 }, peasantCenter1 = { x: 0, y: 0 };
+    var visitCenter2 = { x: 0, y: 0 }, peasantCenter2 = { x: 0, y: 0 };
+
+    var visitRadius1 = 150, visitHeight1 = 150;
+    var peasantRadius1 = 220, peasantHeight1 = 220;
+    var bubbleShape1 = 'square';
+
+    var visitRadius2 = 150, visitHeight2 = 150;
+    var peasantRadius2 = 220, peasantHeight2 = 220;
+    var bubbleShape2 = 'square';
+
+    var people = [];
+    var dragging = null;
+    var draggingType = null;
+    var dragOffset = { x: 0, y: 0 };
+
+    function init() {
+        canvas = document.getElementById('sim-canvas');
+        if (!canvas) return;
+        ctx = canvas.getContext('2d');
+        W = canvas.width;
+        H = canvas.height;
+
+        antenna1.x = W / 2 - 40; antenna1.y = H / 2;
+        antenna2.x = W / 2 + 55; antenna2.y = H / 2 + 65;
+        visitCenter1.x = antenna1.x; visitCenter1.y = antenna1.y;
+        peasantCenter1.x = antenna1.x; peasantCenter1.y = antenna1.y;
+        visitCenter2.x = antenna2.x; visitCenter2.y = antenna2.y;
+        peasantCenter2.x = antenna2.x; peasantCenter2.y = antenna2.y;
+
+        buildStorePoints();
+        setupEvents();
+        drawSim();
+    }
+
+    function buildStorePoints() {
+        var cx = W / 2, cy = H / 2;
+        if (storeShape === 'rect') {
+            storePoints = [
+                { x: cx - 180, y: cy - 120 },
+                { x: cx + 180, y: cy - 120 },
+                { x: cx + 180, y: cy + 120 },
+                { x: cx - 180, y: cy + 120 }
+            ];
+        } else if (storeShape === 'trap') {
+            storePoints = [
+                { x: cx - 120, y: cy - 120 },
+                { x: cx + 120, y: cy - 120 },
+                { x: cx + 180, y: cy + 120 },
+                { x: cx - 180, y: cy + 120 }
+            ];
+        } else if (storeShape === 'diamond') {
+            storePoints = [
+                { x: cx, y: cy - 140 },
+                { x: cx + 180, y: cy },
+                { x: cx, y: cy + 140 },
+                { x: cx - 180, y: cy }
+            ];
+        } else if (storeShape === 'L') {
+            storePoints = [
+                { x: cx - 210, y: cy - 140 },
+                { x: cx + 30,  y: cy - 140 },
+                { x: cx + 30,  y: cy + 10  },
+                { x: cx + 140, y: cy + 10  },
+                { x: cx + 140, y: cy + 140 },
+                { x: cx - 210, y: cy + 140 }
+            ];
+        }
+    }
+
+    function getCanvasPos(evt) {
+        var rect = canvas.getBoundingClientRect();
+        var clientX = evt.clientX;
+        var clientY = evt.clientY;
+        if (evt.touches && evt.touches.length > 0) {
+            clientX = evt.touches[0].clientX;
+            clientY = evt.touches[0].clientY;
+        }
+        return {
+            x: (clientX - rect.left) * (canvas.width / rect.width),
+            y: (clientY - rect.top) * (canvas.height / rect.height)
+        };
+    }
+
+    function pointInPoly(x, y, poly) {
+        var inside = false;
+        for (var i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+            var xi = poly[i].x, yi = poly[i].y;
+            var xj = poly[j].x, yj = poly[j].y;
+            var intersect = ((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+            if (intersect) inside = !inside;
+        }
+        return inside;
+    }
+
+    function isInStore(x, y) {
+        if (storeShape === 'isla') {
+            return Math.hypot(x - W/2, y - H/2) <= islandRadius;
+        }
+        return pointInPoly(x, y, storePoints);
+    }
+
+    function getExpandedPoly(poly, offset) {
+        var cx = W / 2, cy = H / 2;
+        return poly.map(function(p) {
+            var dx = p.x - cx;
+            var dy = p.y - cy;
+            var len = Math.hypot(dx, dy);
+            if (len === 0) return { x: cx, y: cy };
+            var scale = (len + offset) / len;
+            return { x: cx + dx * scale, y: cy + dy * scale };
+        });
+    }
+
+    function isInVisitZoneAnt(x, y, vcX, vcY, vRad, vH, bShape) {
+        var dx = Math.abs(x - vcX);
+        var dy = Math.abs(y - vcY);
+        if (bShape === 'circle') return Math.sqrt(dx*dx + dy*dy) <= vRad;
+        var h = (bShape === 'rect') ? vH : vRad;
+        return dx <= vRad && dy <= h;
+    }
+
+    function isInPeasantZoneAnt(x, y, pcX, pcY, pRad, pH, bShape, vcX, vcY, vRad, vH, bShapeV) {
+        var dx = Math.abs(x - pcX);
+        var dy = Math.abs(y - pcY);
+        var inP;
+        if (bShape === 'circle') {
+            inP = Math.sqrt(dx*dx + dy*dy) <= pRad;
+        } else {
+            var h = (bShape === 'rect') ? pH : pRad;
+            inP = dx <= pRad && dy <= h;
+        }
+        return inP && !isInVisitZoneAnt(x, y, vcX, vcY, vRad, vH, bShapeV);
+    }
+
+    function isInVisit(x, y) {
+        if (storeShape === 'trap' || storeShape === 'diamond') return isInStore(x, y);
+        var mult1 = (storeShape === 'isla') ? 3 : 1;
+        var cx1 = (bubbleShape1 === 'circle') ? antenna1.x : visitCenter1.x;
+        var cy1 = (bubbleShape1 === 'circle') ? antenna1.y : visitCenter1.y;
+        if (isInVisitZoneAnt(x, y, cx1, cy1, visitRadius1 * mult1, visitHeight1 * mult1, bubbleShape1)) return true;
+
+        if (storeShape === 'L' && ant2Enabled) {
+            var cx2 = (bubbleShape2 === 'circle') ? antenna2.x : visitCenter2.x;
+            var cy2 = (bubbleShape2 === 'circle') ? antenna2.y : visitCenter2.y;
+            return isInVisitZoneAnt(x, y, cx2, cy2, visitRadius2, visitHeight2, bubbleShape2);
+        }
+        return false;
+    }
+
+    function isInPeasant(x, y) {
+        if (storeShape === 'trap' || storeShape === 'diamond') {
+            var expandedPoly = getExpandedPoly(storePoints, peasantRadius1 - 100);
+            return pointInPoly(x, y, expandedPoly) && !isInStore(x, y);
+        }
+        var mult1 = (storeShape === 'isla') ? 3 : 1;
+        var cx1 = (bubbleShape1 === 'circle') ? antenna1.x : visitCenter1.x;
+        var cy1 = (bubbleShape1 === 'circle') ? antenna1.y : visitCenter1.y;
+        var pcx1 = (bubbleShape1 === 'circle') ? antenna1.x : peasantCenter1.x;
+        var pcy1 = (bubbleShape1 === 'circle') ? antenna1.y : peasantCenter1.y;
+        if (isInPeasantZoneAnt(x, y, pcx1, pcy1, peasantRadius1 * mult1, peasantHeight1 * mult1, bubbleShape1, cx1, cy1, visitRadius1 * mult1, visitHeight1 * mult1, bubbleShape1)) return true;
+
+        if (storeShape === 'L' && ant2Enabled) {
+            var cx2 = (bubbleShape2 === 'circle') ? antenna2.x : visitCenter2.x;
+            var cy2 = (bubbleShape2 === 'circle') ? antenna2.y : visitCenter2.y;
+            var pcx2 = (bubbleShape2 === 'circle') ? antenna2.x : peasantCenter2.x;
+            var pcy2 = (bubbleShape2 === 'circle') ? antenna2.y : peasantCenter2.y;
+            return isInPeasantZoneAnt(x, y, pcx2, pcy2, peasantRadius2, peasantHeight2, bubbleShape2, cx2, cy2, visitRadius2, visitHeight2, bubbleShape2);
+        }
+        return false;
+    }
+
+    function updateStats() {
+        var totalVisitas = 0, totalPaseantes = 0;
+        for (var i = 0; i < people.length; i++) {
+            var p = people[i];
+            var v = isInVisit(p.x, p.y);
+            var pe = isInPeasant(p.x, p.y);
+            if (v) { totalVisitas++; totalPaseantes++; }
+            else if (pe) { totalPaseantes++; }
+        }
+
+        var statPaseantes = document.getElementById('stat-paseantes');
+        var statVisitas = document.getElementById('stat-visitas');
+        var statAttraction = document.getElementById('stat-attraction');
+        var statPurchase = document.getElementById('stat-purchase');
+        var ticketsInput = document.getElementById('tickets-input');
+
+        if (statPaseantes) statPaseantes.textContent = totalPaseantes;
+        if (statVisitas) statVisitas.textContent = totalVisitas;
+        if (statAttraction) {
+            var attractionRate = totalPaseantes > 0 ? Math.round((totalVisitas / totalPaseantes) * 100) : 0;
+            statAttraction.textContent = attractionRate + '%';
+        }
+        if (statPurchase && ticketsInput) {
+            var tickets = parseInt(ticketsInput.value) || 0;
+            if (totalVisitas > 0) {
+                var conversionRate = Math.round((tickets / totalVisitas) * 100);
+                statPurchase.textContent = conversionRate + '%';
+            } else {
+                statPurchase.textContent = '—';
+            }
+        }
+    }
+
+    function onStoreShapeChange() {
+        storeShape = document.getElementById('store-shape').value;
+        buildStorePoints();
+        var isRect = storeShape === 'rect';
+        var isL = storeShape === 'L';
+        var isIsla = storeShape === 'isla';
+        
+        document.getElementById('rect-adjust-row').style.display = isRect ? '' : 'none';
+        document.getElementById('ant2-toggle-row').style.display = isL ? '' : 'none';
+        document.getElementById('isla-notice').style.display = isIsla ? '' : 'none';
+
+        var visitSlider = document.getElementById('visit-size');
+        var peasantSlider = document.getElementById('peasant-size');
+        if (isIsla) {
+            if (visitSlider) visitSlider.min = "10";
+            if (peasantSlider) peasantSlider.min = "20";
+            document.getElementById('bubble-shape').value = 'circle';
+            bubbleShape1 = 'circle';
+        } else {
+            if (visitSlider) { visitSlider.min = "60"; if (parseInt(visitSlider.value) < 60) visitSlider.value = "60"; }
+            if (peasantSlider) { peasantSlider.min = "90"; if (parseInt(peasantSlider.value) < 90) peasantSlider.value = "90"; }
+        }
+
+        if (!isL) {
+            ant2Enabled = false;
+            document.getElementById('legend-ant2').style.display = 'none';
+            if (document.getElementById('ant2-enabled')) document.getElementById('ant2-enabled').checked = false;
+            document.getElementById('ant2-controls-group').style.display = 'none';
+            document.getElementById('ant1-subhead').style.display = 'none';
+        } else {
+            document.getElementById('ant1-subhead').style.display = ant2Enabled ? '' : 'none';
+        }
+        
+        placeAntennasInside();
+        updateBubbleSizes();
+        drawSim();
+    }
+
+    function adjustRectBubbles() {
+        if (storeShape !== 'rect') return;
+        var shapeSel = document.getElementById('bubble-shape');
+        if (shapeSel) shapeSel.value = 'rect';
+        
+        var vs1 = document.getElementById('visit-size'), vh1 = document.getElementById('visit-h');
+        var ps1 = document.getElementById('peasant-size'), ph1 = document.getElementById('peasant-h');
+
+        if (vs1) vs1.value = "180"; if (vh1) vh1.value = "120";
+        if (ps1) ps1.value = "230"; if (ph1) ph1.value = "170";
+
+        var cx = W / 2, cy = H / 2;
+        antenna1.x = cx; antenna1.y = cy;
+        visitCenter1.x = cx; visitCenter1.y = cy;
+        peasantCenter1.x = cx; peasantCenter1.y = cy;
+
+        updateBubbleSizes();
+    }
+
+    function onAnt2Toggle() {
+        ant2Enabled = document.getElementById('ant2-enabled').checked;
+        document.getElementById('legend-ant2').style.display = ant2Enabled ? '' : 'none';
+        document.getElementById('ant2-controls-group').style.display = ant2Enabled ? '' : 'none';
+        document.getElementById('ant1-subhead').style.display = ant2Enabled ? '' : 'none';
+
+        if (ant2Enabled) {
+            var cx = W / 2, cy = H / 2;
+            antenna2.x = cx + 55; antenna2.y = cy + 65;
+            visitCenter2.x = antenna2.x; visitCenter2.y = antenna2.y;
+            peasantCenter2.x = antenna2.x; peasantCenter2.y = antenna2.y;
+        }
+        drawSim();
+    }
+
+    function placeAntennasInside() {
+        var cx = W / 2, cy = H / 2;
+        if (storeShape === 'rect' || storeShape === 'trap' || storeShape === 'diamond' || storeShape === 'isla') {
+            antenna1.x = cx; antenna1.y = cy;
+        } else if (storeShape === 'L') {
+            antenna1.x = cx - 85; antenna1.y = cy - 60;
+            antenna2.x = cx + 55; antenna2.y = cy + 65;
+        }
+        visitCenter1.x = antenna1.x; visitCenter1.y = antenna1.y;
+        peasantCenter1.x = antenna1.x; peasantCenter1.y = antenna1.y;
+        if (storeShape === 'L') {
+            visitCenter2.x = antenna2.x; visitCenter2.y = antenna2.y;
+            peasantCenter2.x = antenna2.x; peasantCenter2.y = antenna2.y;
+        }
+    }
+
+    function updateBubbleSizes() {
+        var vs1 = document.getElementById('visit-size'), vh1 = document.getElementById('visit-h');
+        var ps1 = document.getElementById('peasant-size'), ph1 = document.getElementById('peasant-h');
+        var shape1 = document.getElementById('bubble-shape');
+
+        if (vs1) { visitRadius1 = parseInt(vs1.value); document.getElementById('visit-size-val').textContent = visitRadius1 + 'px'; }
+        if (vh1) { visitHeight1 = parseInt(vh1.value); document.getElementById('visit-h-val').textContent = visitHeight1 + 'px'; }
+        if (ps1) { peasantRadius1 = parseInt(ps1.value); document.getElementById('peasant-size-val').textContent = peasantRadius1 + 'px'; }
+        if (ph1) { peasantHeight1 = parseInt(ph1.value); document.getElementById('peasant-h-val').textContent = peasantHeight1 + 'px'; }
+        if (shape1) { bubbleShape1 = shape1.value; }
+
+        var showHeight1 = bubbleShape1 === 'rect';
+        if (document.getElementById('visit-h-row')) document.getElementById('visit-h-row').style.display = showHeight1 ? '' : 'none';
+        if (document.getElementById('peasant-h-row')) document.getElementById('peasant-h-row').style.display = showHeight1 ? '' : 'none';
+
+        if (bubbleShape1 === 'square') { visitHeight1 = visitRadius1; peasantHeight1 = peasantRadius1; }
+
+        var vs2 = document.getElementById('visit-size-2'), vh2 = document.getElementById('visit-h-2');
+        var ps2 = document.getElementById('peasant-size-2'), ph2 = document.getElementById('peasant-h-2');
+        var shape2 = document.getElementById('bubble-shape-2');
+
+        if (vs2) { visitRadius2 = parseInt(vs2.value); document.getElementById('visit-size-val-2').textContent = visitRadius2 + 'px'; }
+        if (vh2) { visitHeight2 = parseInt(vh2.value); document.getElementById('visit-h-val-2').textContent = visitHeight2 + 'px'; }
+        if (ps2) { peasantRadius2 = parseInt(ps2.value); document.getElementById('peasant-size-val-2').textContent = peasantRadius2 + 'px'; }
+        if (ph2) { peasantHeight2 = parseInt(ph2.value); document.getElementById('peasant-h-val-2').textContent = peasantHeight2 + 'px'; }
+        if (shape2) { bubbleShape2 = shape2.value; }
+
+        var showHeight2 = bubbleShape2 === 'rect';
+        if (document.getElementById('visit-h-row-2')) document.getElementById('visit-h-row-2').style.display = showHeight2 ? '' : 'none';
+        if (document.getElementById('peasant-h-row-2')) document.getElementById('peasant-h-row-2').style.display = showHeight2 ? '' : 'none';
+
+        if (bubbleShape2 === 'square') { visitHeight2 = visitRadius2; peasantHeight2 = peasantRadius2; }
+
+        drawSim();
+    }
+
+    function addRandomPerson() {
+        people.push({
+            x: Math.round(40 + Math.random() * (W - 80)),
+            y: Math.round(40 + Math.random() * (H - 80))
+        });
+        drawSim();
+    }
+
+    function clearPeople() {
+        people = [];
+        drawSim();
+    }
+
+    function drawBubble(cx, cy, w, h, isVisit, bShape) {
+        var fillColor = isVisit ? 'rgba(9, 132, 227, 0.12)' : 'rgba(214, 48, 49, 0.08)';
+        var strokeColor = isVisit ? 'rgba(9, 132, 227, 0.30)' : 'rgba(214, 48, 49, 0.20)';
+        if (bShape === 'circle') {
+            ctx.beginPath(); ctx.arc(cx, cy, w, 0, Math.PI * 2); ctx.fillStyle = fillColor; ctx.fill();
+            ctx.strokeStyle = strokeColor; ctx.lineWidth = 2; ctx.setLineDash([6, 4]); ctx.stroke(); ctx.setLineDash([]);
+        } else {
+            ctx.fillStyle = fillColor; ctx.fillRect(cx - w, cy - h, w * 2, h * 2);
+            ctx.strokeStyle = strokeColor; ctx.lineWidth = 2; ctx.setLineDash([6, 4]); ctx.strokeRect(cx - w, cy - h, w * 2, h * 2); ctx.setLineDash([]);
+        }
+    }
+
+    function drawPolyBubble(poly, isVisit) {
+        var fillColor = isVisit ? 'rgba(9, 132, 227, 0.12)' : 'rgba(214, 48, 49, 0.08)';
+        var strokeColor = isVisit ? 'rgba(9, 132, 227, 0.30)' : 'rgba(214, 48, 49, 0.20)';
+        ctx.beginPath(); ctx.moveTo(poly[0].x, poly[0].y);
+        for (var i = 1; i < poly.length; i++) ctx.lineTo(poly[i].x, poly[i].y);
+        ctx.closePath(); ctx.fillStyle = fillColor; ctx.fill();
+        ctx.strokeStyle = strokeColor; ctx.lineWidth = 2; ctx.setLineDash([6, 4]); ctx.stroke(); ctx.setLineDash([]);
+    }
+
+    function drawCenter(cx, cy, color, label) {
+        ctx.strokeStyle = color; ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.moveTo(cx - 8, cy); ctx.lineTo(cx + 8, cy); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(cx, cy - 8); ctx.lineTo(cx, cy + 8); ctx.stroke();
+        ctx.beginPath(); ctx.arc(cx, cy, 3, 0, Math.PI * 2); ctx.fillStyle = color.replace('0.4', '0.3'); ctx.fill();
+        ctx.fillStyle = color; ctx.font = '500 9px "Helvetica Neue", Helvetica, Arial'; ctx.textAlign = 'center'; ctx.fillText(label, cx, cy - 14);
+    }
+
+    function drawAntenna(ant, label) {
+        ctx.fillStyle = ant.color; ctx.beginPath(); ctx.arc(ant.x, ant.y, ant.r, 0, Math.PI * 2); ctx.fill();
+        ctx.strokeStyle = 'rgba(0,0,0,0.2)'; ctx.lineWidth = 1; ctx.stroke();
+        ctx.strokeStyle = ant.color; ctx.globalAlpha = 0.2; ctx.lineWidth = 1.5;
+        for (var r = 10; r <= 20; r += 5) { ctx.beginPath(); ctx.arc(ant.x, ant.y, r, 0, Math.PI * 2); ctx.stroke(); }
+        ctx.globalAlpha = 1; ctx.fillStyle = ant.color; ctx.font = '500 10px "Helvetica Neue", Helvetica, Arial'; ctx.textAlign = 'center'; ctx.fillText(label, ant.x, ant.y - 14);
+    }
+
+    function drawSim() {
+        if (!ctx) return;
+        ctx.clearRect(0, 0, W, H);
+
+        ctx.fillStyle = '#fafafa'; ctx.fillRect(0, 0, W, H);
+
+        if (storeShape === 'isla') {
+            ctx.beginPath(); ctx.arc(W/2, H/2, islandRadius, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
+            ctx.strokeStyle = '#2CAD78'; ctx.lineWidth = 3; ctx.stroke();
+            ctx.beginPath(); ctx.arc(W/2, H/2, islandRadius * 0.45, 0, Math.PI * 2); ctx.fillStyle = '#f8fdfa'; ctx.fill();
+            ctx.strokeStyle = 'rgba(44, 173, 120, 0.4)'; ctx.lineWidth = 1.5; ctx.setLineDash([4, 4]); ctx.stroke(); ctx.setLineDash([]);
+        } else {
+            ctx.beginPath(); ctx.moveTo(storePoints[0].x, storePoints[0].y);
+            for (var i = 1; i < storePoints.length; i++) ctx.lineTo(storePoints[i].x, storePoints[i].y);
+            ctx.closePath(); ctx.fillStyle = '#fff'; ctx.fill(); ctx.strokeStyle = '#ccc'; ctx.lineWidth = 2; ctx.stroke();
+        }
+
+        ctx.fillStyle = '#555'; ctx.font = '600 14px "Helvetica Neue", Helvetica, Arial'; ctx.textAlign = 'center';
+        var labelY = storeShape === 'isla' ? H / 2 - islandRadius - 12 : H / 2 - 142;
+        if (storeShape === 'L') labelY = H / 2 - 165;
+        ctx.fillText(storeShape === 'isla' ? 'TIENDA (ISLA COMERCIAL)' : 'TIENDA', W / 2, labelY);
+
+        if (storeShape === 'trap' || storeShape === 'diamond') {
+            var expandedPoly = getExpandedPoly(storePoints, peasantRadius1 - 100);
+            drawPolyBubble(expandedPoly, false);
+            drawPolyBubble(storePoints, true);
+        } else {
+            var mult1 = (storeShape === 'isla') ? 3 : 1;
+            var pc1x = (bubbleShape1 === 'circle') ? antenna1.x : peasantCenter1.x;
+            var pc1y = (bubbleShape1 === 'circle') ? antenna1.y : peasantCenter1.y;
+            var pH1 = (bubbleShape1 === 'rect') ? peasantHeight1 : peasantRadius1;
+            drawBubble(pc1x, pc1y, peasantRadius1 * mult1, pH1 * mult1, false, bubbleShape1);
+
+            var vc1x = (bubbleShape1 === 'circle') ? antenna1.x : visitCenter1.x;
+            var vc1y = (bubbleShape1 === 'circle') ? antenna1.y : visitCenter1.y;
+            var vH1 = (bubbleShape1 === 'rect') ? visitHeight1 : visitRadius1;
+            drawBubble(vc1x, vc1y, visitRadius1 * mult1, vH1 * mult1, true, bubbleShape1);
+
+            if (storeShape === 'L' && ant2Enabled) {
+                var pc2x = (bubbleShape2 === 'circle') ? antenna2.x : peasantCenter2.x;
+                var pc2y = (bubbleShape2 === 'circle') ? antenna2.y : peasantCenter2.y;
+                var pH2 = (bubbleShape2 === 'rect') ? peasantHeight2 : peasantRadius2;
+                drawBubble(pc2x, pc2y, peasantRadius2, pH2, false, bubbleShape2);
+
+                var vc2x = (bubbleShape2 === 'circle') ? antenna2.x : visitCenter2.x;
+                var vc2y = (bubbleShape2 === 'circle') ? antenna2.y : visitCenter2.y;
+                var vH2 = (bubbleShape2 === 'rect') ? visitHeight2 : visitRadius2;
+                drawBubble(vc2x, vc2y, visitRadius2, vH2, true, bubbleShape2);
+            }
+        }
+
+        if (storeShape !== 'trap' && storeShape !== 'diamond') {
+            if (bubbleShape1 !== 'circle') {
+                drawCenter(visitCenter1.x, visitCenter1.y, 'rgba(9,132,227,0.4)', 'centro v1');
+                drawCenter(peasantCenter1.x, peasantCenter1.y, 'rgba(214,48,49,0.4)', 'centro p1');
+            }
+            if (storeShape === 'L' && ant2Enabled && bubbleShape2 !== 'circle') {
+                drawCenter(visitCenter2.x, visitCenter2.y, 'rgba(9,132,227,0.4)', 'centro v2');
+                drawCenter(peasantCenter2.x, peasantCenter2.y, 'rgba(214,48,49,0.4)', 'centro p2');
+            }
+        }
+
+        drawAntenna(antenna1, ant2Enabled ? 'antena 1' : 'antena');
+        if (storeShape === 'L' && ant2Enabled) drawAntenna(antenna2, 'antena 2');
+
+        var isIsla = (storeShape === 'isla');
+        var glowR = isIsla ? 36 : 12;
+        var circleR = isIsla ? 24 : 8;
+        var strokeW = isIsla ? 3 : 1.5;
+        var labelOffsetY = isIsla ? 32 : 12;
+        var labelFont = isIsla ? '600 11px "Helvetica Neue", Helvetica, Arial' : '600 9px "Helvetica Neue", Helvetica, Arial';
+
+        for (var i = 0; i < people.length; i++) {
+            var p = people[i];
+            var inVisit = isInVisit(p.x, p.y);
+            var inPeasant = isInPeasant(p.x, p.y);
+            var color, glowColor, strokeColor, label;
+
+            if (inVisit) {
+                color = '#ffffff'; glowColor = 'rgba(9,132,227,0.3)'; strokeColor = '#0984e3'; label = 'visita';
+            } else if (inPeasant) {
+                color = '#00b894'; glowColor = 'rgba(0,184,148,0.3)'; strokeColor = '#00b894'; label = 'paseante';
+            } else {
+                color = '#bdc3c7'; glowColor = 'rgba(189,195,199,0.2)'; strokeColor = '#bdc3c7'; label = 'fuera';
+            }
+
+            ctx.beginPath(); ctx.arc(p.x, p.y, glowR, 0, Math.PI * 2); ctx.fillStyle = glowColor; ctx.fill();
+            ctx.beginPath(); ctx.arc(p.x, p.y, circleR, 0, Math.PI * 2); ctx.fillStyle = color; ctx.fill();
+            ctx.strokeStyle = strokeColor; ctx.lineWidth = strokeW; ctx.stroke();
+            ctx.fillStyle = (inVisit) ? '#0984e3' : (inPeasant ? '#00b894' : '#7f8c8d');
+            ctx.font = labelFont; ctx.textAlign = 'center'; ctx.fillText(label, p.x, p.y + labelOffsetY);
+        }
+
+        updateStats();
+    }
+
+    function setupEvents() {
+        if (!canvas) return;
+
+        canvas.addEventListener('mousedown', function(e) {
+            var pos = getCanvasPos(e);
+            if (Math.hypot(pos.x - antenna1.x, pos.y - antenna1.y) < 15) { dragging = antenna1; draggingType = 'ant1'; return; }
+            if (storeShape === 'L' && ant2Enabled && Math.hypot(pos.x - antenna2.x, pos.y - antenna2.y) < 15) { dragging = antenna2; draggingType = 'ant2'; return; }
+            if (bubbleShape1 !== 'circle' && Math.hypot(pos.x - visitCenter1.x, pos.y - visitCenter1.y) < 12) { dragging = visitCenter1; draggingType = 'vc1'; return; }
+            if (bubbleShape1 !== 'circle' && Math.hypot(pos.x - peasantCenter1.x, pos.y - peasantCenter1.y) < 12) { dragging = peasantCenter1; draggingType = 'pc1'; return; }
+            if (storeShape === 'L' && ant2Enabled && bubbleShape2 !== 'circle' && Math.hypot(pos.x - visitCenter2.x, pos.y - visitCenter2.y) < 12) { dragging = visitCenter2; draggingType = 'vc2'; return; }
+            if (storeShape === 'L' && ant2Enabled && bubbleShape2 !== 'circle' && Math.hypot(pos.x - peasantCenter2.x, pos.y - peasantCenter2.y) < 12) { dragging = peasantCenter2; draggingType = 'pc2'; return; }
+
+            for (var i = 0; i < people.length; i++) {
+                if (Math.hypot(pos.x - people[i].x, pos.y - people[i].y) < 16) {
+                    dragging = people[i]; draggingType = 'person';
+                    dragOffset = { x: pos.x - people[i].x, y: pos.y - people[i].y };
+                    return;
+                }
+            }
+
+            people.push({ x: Math.round(pos.x), y: Math.round(pos.y) });
+            drawSim();
+        });
+
+        canvas.addEventListener('mousemove', function(e) {
+            if (!dragging) return;
+            var pos = getCanvasPos(e);
+            if (draggingType === 'person') {
+                dragging.x = Math.round(pos.x - dragOffset.x);
+                dragging.y = Math.round(pos.y - dragOffset.y);
+            } else {
+                dragging.x = Math.round(pos.x);
+                dragging.y = Math.round(pos.y);
+            }
+            drawSim();
+        });
+
+        window.addEventListener('mouseup', function() { dragging = null; draggingType = null; });
+
+        canvas.addEventListener('dblclick', function(e) {
+            var pos = getCanvasPos(e);
+            for (var i = 0; i < people.length; i++) {
+                if (Math.hypot(pos.x - people[i].x, pos.y - people[i].y) < 16) {
+                    people.splice(i, 1);
+                    drawSim();
+                    return;
+                }
+            }
+        });
+    }
+
+    return {
+        init: init,
+        drawSim: drawSim,
+        onStoreShapeChange: onStoreShapeChange,
+        adjustRectBubbles: adjustRectBubbles,
+        onAnt2Toggle: onAnt2Toggle,
+        updateBubbleSizes: updateBubbleSizes,
+        addRandomPerson: addRandomPerson,
+        clearPeople: clearPeople,
+        updateStats: updateStats
+    };
+})();
+
+// Initialize on page load
+window.addEventListener('load', () => {
+    CoverageSimulator.init();
+});
+</script>
+</body>
+</html>
