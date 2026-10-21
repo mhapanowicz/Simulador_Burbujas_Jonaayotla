@@ -1480,6 +1480,37 @@ const CoverageSimulator = (function() {
         });
     }
 
+    // Offset paralelo para poligonos ortogonales (como la L):
+    // cada borde se desplaza hacia afuera por igual, sin deformar la forma
+    function getOffsetPoly(poly, offset) {
+        var n = poly.length;
+        var result = [];
+        for (var i = 0; i < n; i++) {
+            var prev = poly[(i - 1 + n) % n];
+            var curr = poly[i];
+            var next = poly[(i + 1) % n];
+            // Direcciones de los bordes entrante y saliente
+            var d1x = curr.x - prev.x, d1y = curr.y - prev.y;
+            var d2x = next.x - curr.x, d2y = next.y - curr.y;
+            // Normalizar
+            var l1 = Math.hypot(d1x, d1y) || 1;
+            var l2 = Math.hypot(d2x, d2y) || 1;
+            d1x /= l1; d1y /= l1; d2x /= l2; d2y /= l2;
+            // Normales hacia afuera (rotar 90° a la derecha para CCW, izquierda para CW)
+            // Para poligono CW (como nuestra L), normal hacia afuera = rotar borde 90° a la derecha
+            var n1x = d1y, n1y = -d1x;
+            var n2x = d2y, n2y = -d2x;
+            // Promediar las dos normales para el vertice compartido
+            var nx = (n1x + n2x), ny = (n1y + n2y);
+            var nlen = Math.hypot(nx, ny);
+            if (nlen === 0) { nx = n1x; ny = n1y; nlen = Math.hypot(nx, ny); }
+            nx /= nlen; ny /= nlen;
+            // Desplazar el vertice
+            result.push({ x: curr.x + nx * offset, y: curr.y + ny * offset });
+        }
+        return result;
+    }
+
     function isInVisitZoneAnt(x, y, vcX, vcY, vRad, vH, bShape) {
         var dx = Math.abs(x - vcX);
         var dy = Math.abs(y - vcY);
@@ -1523,8 +1554,8 @@ const CoverageSimulator = (function() {
             return pointInPoly(x, y, expandedPoly) && !isInStore(x, y);
         }
         if (storeShape === 'L' && ant2Enabled && lAdjusted) {
-            var lExpanded = getExpandedPoly(storePoints, 30);
-            return pointInPoly(x, y, lExpanded) && !isInStore(x, y);
+            var lExpandedPeasant = getOffsetPoly(storePoints, 30);
+            return pointInPoly(x, y, lExpandedPeasant) && !isInStore(x, y);
         }
         var mult1 = (storeShape === 'isla') ? 3 : 1;
         var cx1 = (bubbleShape1 === 'circle') ? antenna1.x : visitCenter1.x;
@@ -1850,8 +1881,8 @@ const CoverageSimulator = (function() {
             drawPolyBubble(storePoints, true);
         } else if (storeShape === 'L' && ant2Enabled && lAdjusted) {
             // L con 2 antenas ajustada: burbujas deformadas a forma L, sin segunda burbuja
-            var lExpandedVisit = getExpandedPoly(storePoints, 0);
-            var lExpandedPeasant = getExpandedPoly(storePoints, 30);
+            var lExpandedVisit = storePoints;
+            var lExpandedPeasant = getOffsetPoly(storePoints, 30);
             drawPolyBubble(lExpandedPeasant, false);
             drawPolyBubble(lExpandedVisit, true);
         } else {
