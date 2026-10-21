@@ -1503,6 +1503,7 @@ const CoverageSimulator = (function() {
 
     function isInVisit(x, y) {
         if (storeShape === 'trap' || storeShape === 'diamond') return isInStore(x, y);
+        if (storeShape === 'L' && ant2Enabled && lAdjusted) return isInStore(x, y);
         var mult1 = (storeShape === 'isla') ? 3 : 1;
         var cx1 = (bubbleShape1 === 'circle') ? antenna1.x : visitCenter1.x;
         var cy1 = (bubbleShape1 === 'circle') ? antenna1.y : visitCenter1.y;
@@ -1520,6 +1521,10 @@ const CoverageSimulator = (function() {
         if (storeShape === 'trap' || storeShape === 'diamond') {
             var expandedPoly = getExpandedPoly(storePoints, peasantRadius1 - 100);
             return pointInPoly(x, y, expandedPoly) && !isInStore(x, y);
+        }
+        if (storeShape === 'L' && ant2Enabled && lAdjusted) {
+            var lExpanded = getExpandedPoly(storePoints, 30);
+            return pointInPoly(x, y, lExpanded) && !isInStore(x, y);
         }
         var mult1 = (storeShape === 'isla') ? 3 : 1;
         var cx1 = (bubbleShape1 === 'circle') ? antenna1.x : visitCenter1.x;
@@ -1680,6 +1685,22 @@ const CoverageSimulator = (function() {
             peasantCenter1.x = bboxCx; peasantCenter1.y = bboxCy;
 
             drawSim();
+        } else if (storeShape === 'L' && ant2Enabled) {
+            // Forma L con dos antenas: deformar burbujas a forma L, sin segunda burbuja
+            lAdjusted = true;
+
+            var cx = W / 2, cy = H / 2;
+            // Posicionar antena 1 en la parte vertical de la L
+            antenna1.x = cx - 89; antenna1.y = cy;
+            // Posicionar antena 2 en el pie de la L
+            antenna2.x = cx + 85; antenna2.y = cy + 75;
+
+            visitCenter1.x = antenna1.x; visitCenter1.y = antenna1.y;
+            peasantCenter1.x = antenna1.x; peasantCenter1.y = antenna1.y;
+            visitCenter2.x = antenna2.x; visitCenter2.y = antenna2.y;
+            peasantCenter2.x = antenna2.x; peasantCenter2.y = antenna2.y;
+
+            drawSim();
         }
     }
 
@@ -1827,6 +1848,12 @@ const CoverageSimulator = (function() {
             var expandedPoly = getExpandedPoly(storePoints, peasantRadius1 - 100);
             drawPolyBubble(expandedPoly, false);
             drawPolyBubble(storePoints, true);
+        } else if (storeShape === 'L' && ant2Enabled && lAdjusted) {
+            // L con 2 antenas ajustada: burbujas deformadas a forma L, sin segunda burbuja
+            var lExpandedVisit = getExpandedPoly(storePoints, 0);
+            var lExpandedPeasant = getExpandedPoly(storePoints, 30);
+            drawPolyBubble(lExpandedPeasant, false);
+            drawPolyBubble(lExpandedVisit, true);
         } else {
             var mult1 = (storeShape === 'isla') ? 3 : 1;
             var pc1x = (bubbleShape1 === 'circle') ? antenna1.x : peasantCenter1.x;
@@ -1839,7 +1866,7 @@ const CoverageSimulator = (function() {
             var vH1 = (bubbleShape1 === 'rect') ? visitHeight1 : visitRadius1;
             drawBubble(vc1x, vc1y, visitRadius1 * mult1, vH1 * mult1, true, bubbleShape1);
 
-            if (storeShape === 'L' && ant2Enabled) {
+            if (storeShape === 'L' && ant2Enabled && !lAdjusted) {
                 var pc2x = (bubbleShape2 === 'circle') ? antenna2.x : peasantCenter2.x;
                 var pc2y = (bubbleShape2 === 'circle') ? antenna2.y : peasantCenter2.y;
                 var pH2 = (bubbleShape2 === 'rect') ? peasantHeight2 : peasantRadius2;
@@ -1857,7 +1884,7 @@ const CoverageSimulator = (function() {
                 drawCenter(visitCenter1.x, visitCenter1.y, 'rgba(9,132,227,0.4)', 'centro v1');
                 drawCenter(peasantCenter1.x, peasantCenter1.y, 'rgba(214,48,49,0.4)', 'centro p1');
             }
-            if (storeShape === 'L' && ant2Enabled && bubbleShape2 !== 'circle') {
+            if (storeShape === 'L' && ant2Enabled && !lAdjusted && bubbleShape2 !== 'circle') {
                 drawCenter(visitCenter2.x, visitCenter2.y, 'rgba(9,132,227,0.4)', 'centro v2');
                 drawCenter(peasantCenter2.x, peasantCenter2.y, 'rgba(214,48,49,0.4)', 'centro p2');
             }
@@ -1906,8 +1933,8 @@ const CoverageSimulator = (function() {
             if (storeShape === 'L' && ant2Enabled && Math.hypot(pos.x - antenna2.x, pos.y - antenna2.y) < 15) { dragging = antenna2; draggingType = 'ant2'; return; }
             if (bubbleShape1 !== 'circle' && Math.hypot(pos.x - visitCenter1.x, pos.y - visitCenter1.y) < 12) { dragging = visitCenter1; draggingType = 'vc1'; return; }
             if (bubbleShape1 !== 'circle' && Math.hypot(pos.x - peasantCenter1.x, pos.y - peasantCenter1.y) < 12) { dragging = peasantCenter1; draggingType = 'pc1'; return; }
-            if (storeShape === 'L' && ant2Enabled && bubbleShape2 !== 'circle' && Math.hypot(pos.x - visitCenter2.x, pos.y - visitCenter2.y) < 12) { dragging = visitCenter2; draggingType = 'vc2'; return; }
-            if (storeShape === 'L' && ant2Enabled && bubbleShape2 !== 'circle' && Math.hypot(pos.x - peasantCenter2.x, pos.y - peasantCenter2.y) < 12) { dragging = peasantCenter2; draggingType = 'pc2'; return; }
+            if (storeShape === 'L' && ant2Enabled && !lAdjusted && bubbleShape2 !== 'circle' && Math.hypot(pos.x - visitCenter2.x, pos.y - visitCenter2.y) < 12) { dragging = visitCenter2; draggingType = 'vc2'; return; }
+            if (storeShape === 'L' && ant2Enabled && !lAdjusted && bubbleShape2 !== 'circle' && Math.hypot(pos.x - peasantCenter2.x, pos.y - peasantCenter2.y) < 12) { dragging = peasantCenter2; draggingType = 'pc2'; return; }
 
             for (var i = 0; i < people.length; i++) {
                 if (Math.hypot(pos.x - people[i].x, pos.y - people[i].y) < 16) {
