@@ -1628,24 +1628,24 @@ const CoverageSimulator = (function() {
 
             updateBubbleSizes();
         } else if (storeShape === 'L' && !ant2Enabled) {
-            // Forma L con una sola antena: rectangulos que cubren toda la L
+            // Forma L con una sola antena: replicar posiciones exactas de la imagen de referencia
             lAdjusted = true;
             var shapeSel = document.getElementById('bubble-shape');
             if (shapeSel) shapeSel.value = 'rect';
             bubbleShape1 = 'rect';
 
             var cx = W / 2, cy = H / 2;
-            // Bounding box de la L: x: cx-210 a cx+140 (ancho 350), y: cy-140 a cy+140 (alto 280)
-            var bboxCx = cx - 35; // centro X del bounding box
-            var bboxCy = cy;       // centro Y del bounding box
+            // Centro de las burbujas: desplazado a la izquierda para cubrir la parte vertical de la L
+            var bboxCx = cx - 89; // centrado sobre la parte vertical de la L
+            var bboxCy = cy;
 
-            // Visitas (azul): rectangulo que cubre la mayor parte de la L pero deja un margen
-            var visitW = 155; // menor que 175 (mitad del bbox) para dejar espacio
-            var visitH = 120; // menor que 140 (mitad del bbox) para dejar espacio
+            // Visitas (azul): rectangulo que cubre la parte vertical de la L con margen reducido
+            var visitW = 119;
+            var visitH = 139;
 
-            // Paseantes (rojo): rectangulo mas grande que envuelve todo
-            var peasantW = 230;
-            var peasantH = 180;
+            // Paseantes (rojo): rectangulo mas grande que envuelve la parte vertical con margen
+            var peasantW = 149;
+            var peasantH = 161;
 
             var vs1 = document.getElementById('visit-size'), vh1 = document.getElementById('visit-h');
             var ps1 = document.getElementById('peasant-size'), ph1 = document.getElementById('peasant-h');
